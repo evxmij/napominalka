@@ -68,3 +68,6 @@ gradle bundleRelease
 
 
 Важно: в репозитории не хранится `gradle-wrapper.jar` (ограничение платформы PR по бинарным файлам). Если нужен wrapper локально, выполните `gradle wrapper --gradle-version 8.7`.
+
+
+Подробный пошаговый мануал по релизной сборке: `docs/release-build-guide.md`.
