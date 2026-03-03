@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://napominalka.local/schemas/backup-v1.json",
+  "title": "Napominalka Backup v1",
+  "type": "object",
+  "required": ["schemaVersion", "exportedAt", "sessions", "dayReviews", "topics", "tasks", "settings"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "startAt", "durationSec", "category"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "startAt": { "type": "string", "format": "date-time" },
+          "endAt": { "type": ["string", "null"], "format": "date-time" },
+          "durationSec": { "type": "integer", "minimum": 0 },
+          "category": { "type": "string", "enum": ["THEORY", "PRACTICE", "PROJECT", "DEBUG"] },
+          "topicId": { "type": ["integer", "null"] },
+          "taskId": { "type": ["integer", "null"] },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dayReviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "productivity1to10", "did", "blockers", "planTomorrow"],
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "productivity1to10": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "did": { "type": "string" },
+          "blockers": { "type": "string" },
+          "planTomorrow": { "type": "string" },
+          "totalLearnedSec": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "module": { "type": ["string", "null"] },
+          "status": { "type": "string", "enum": ["NOT_STARTED", "IN_PROGRESS", "DONE"] },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "done", "priority"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "done": { "type": "boolean" },
+          "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+          "dueDate": { "type": ["string", "null"], "format": "date" },
+          "topicId": { "type": ["integer", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "settings": {
+      "type": "object",
+      "required": ["theme", "weeklyGoalMinutes", "remindersEnabled", "smartReminderEnabled", "quietHoursEnabled"],
+      "properties": {
+        "theme": { "type": "string", "enum": ["SYSTEM", "LIGHT", "DARK"] },
+        "weeklyGoalMinutes": { "type": "integer", "minimum": 0 },
+        "remindersEnabled": { "type": "boolean" },
+        "reminderScheduleType": { "type": "string", "enum": ["DAILY", "WEEKLY_N_TIMES", "CUSTOM_DAYS"] },
+        "reminderTime": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "reminderDaysMask": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "smartReminderEnabled": { "type": "boolean" },
+        "quietHoursEnabled": { "type": "boolean" },
+        "quietFrom": { "type": ["string", "null"], "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "quietTo": { "type": ["string", "null"], "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
