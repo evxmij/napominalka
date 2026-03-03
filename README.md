@@ -35,6 +35,12 @@ gradle installDebug
 
 После установки запускайте приложение `Napominalka` на устройстве.
 
+## Сборка APK одной командой
+```bash
+ANDROID_SDK_ROOT=/path/to/Android/Sdk JAVA_HOME=/path/to/jdk ./scripts/build_debug_apk.sh
+```
+Скрипт проверяет окружение и выводит путь к APK + SHA-256.
+
 ## Release-сборка
 ```bash
 # unsigned release APK
